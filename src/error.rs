@@ -80,28 +80,24 @@ impl fmt::Display for ParseError {
             Self::LengthAboveMaximum { declared } => {
                 write!(f, "length field is {declared}, above the maximum of 4096")
             }
-            Self::LengthExceedsBuffer {
-                declared,
-                available,
-            } => write!(
-                f,
-                "length field declares {declared} bytes but only {available} are present"
-            ),
+            Self::LengthExceedsBuffer { declared, available } =>
+                write!(
+                    f,
+                    "length field declares {declared} bytes but only {available} are present"
+                ),
             Self::AttributeTruncated { offset } => {
                 write!(f, "trailing byte at offset {offset} is not a full attribute")
             }
-            Self::AttributeLengthBelowMinimum { offset, declared } => write!(
-                f,
-                "attribute at offset {offset} declares length {declared}, below the minimum of 2"
-            ),
-            Self::AttributeOverrunsPacket {
-                offset,
-                declared,
-                remaining,
-            } => write!(
-                f,
-                "attribute at offset {offset} declares length {declared} but only {remaining} bytes remain"
-            ),
+            Self::AttributeLengthBelowMinimum { offset, declared } =>
+                write!(
+                    f,
+                    "attribute at offset {offset} declares length {declared}, below the minimum of 2"
+                ),
+            Self::AttributeOverrunsPacket { offset, declared, remaining } =>
+                write!(
+                    f,
+                    "attribute at offset {offset} declares length {declared} but only {remaining} bytes remain"
+                ),
         }
     }
 }

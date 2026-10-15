@@ -436,7 +436,7 @@ mod tests {
         assert_eq!(
             results[1],
             Err(ParseError::AttributeTruncated {
-                offset: HEADER_LEN + 6
+                offset: HEADER_LEN + 6,
             })
         );
     }

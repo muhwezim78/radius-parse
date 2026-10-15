@@ -24,7 +24,7 @@ fn hex(dump: &str) -> Vec<u8> {
     assert_eq!(digits.len() % 2, 0, "hex dump has an odd number of digits");
     digits
         .chunks(2)
-        .map(|pair| pair[0] << 4 | pair[1])
+        .map(|pair| (pair[0] << 4) | pair[1])
         .collect()
 }
 
@@ -67,8 +67,8 @@ fn reads_an_access_request_end_to_end() {
     assert!(packet.code().is_client_request());
     assert_eq!(packet.identifier(), 42);
     assert_eq!(packet.len(), 98);
-    assert_eq!(packet.authenticator()[0], 0x8F);
-    assert_eq!(packet.authenticator()[15], 0x3D);
+    assert_eq!(packet.authenticator()[0], 0x8f);
+    assert_eq!(packet.authenticator()[15], 0x3d);
 
     let attributes: Vec<_> = packet
         .attributes()
@@ -246,7 +246,7 @@ fn flipping_any_single_byte_never_panics() {
 fn walks_arbitrary_bytes_without_panicking() {
     // A small xorshift PRNG, so the sweep is deterministic and needs no
     // dev-dependency.
-    let mut state = 0x2545_F491_4F6C_DD1Du64;
+    let mut state = 0x2545_f491_4f6c_dd1du64;
     let mut next = move || {
         state ^= state << 13;
         state ^= state >> 7;
@@ -275,7 +275,9 @@ fn walks_arbitrary_bytes_without_panicking() {
                         consumed += attribute.wire_len();
                         assert!(consumed <= packet.attribute_bytes().len());
                     }
-                    Err(_) => break,
+                    Err(_) => {
+                        break;
+                    }
                 }
             }
         }

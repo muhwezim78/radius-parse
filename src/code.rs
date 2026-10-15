@@ -125,7 +125,9 @@ impl fmt::Display for Code {
             Self::CoaRequest => "CoA-Request",
             Self::CoaAck => "CoA-ACK",
             Self::CoaNak => "CoA-NAK",
-            Self::Unassigned(raw) => return write!(f, "Unassigned({raw})"),
+            Self::Unassigned(raw) => {
+                return write!(f, "Unassigned({raw})");
+            }
         };
         f.write_str(name)
     }

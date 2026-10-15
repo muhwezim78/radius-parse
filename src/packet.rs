@@ -200,7 +200,7 @@ mod tests {
         out.push(id);
         #[allow(clippy::cast_possible_truncation)]
         out.extend_from_slice(&(total as u16).to_be_bytes());
-        out.extend_from_slice(&[0xAA; 16]);
+        out.extend_from_slice(&[0xaa; 16]);
         out.extend_from_slice(attribute_bytes);
         out
     }
@@ -213,7 +213,7 @@ mod tests {
         assert_eq!(p.code(), Code::AccessRequest);
         assert_eq!(p.identifier(), 7);
         assert_eq!(p.len(), 20);
-        assert_eq!(p.authenticator(), &[0xAA; 16]);
+        assert_eq!(p.authenticator(), &[0xaa; 16]);
         assert!(p.attribute_bytes().is_empty());
         assert_eq!(p.attributes().count(), 0);
     }
@@ -248,7 +248,7 @@ mod tests {
     #[test]
     fn a_length_field_below_twenty_is_rejected() {
         let mut bytes = packet(1, 0, &[]);
-        bytes[2..4].copy_from_slice(&19u16.to_be_bytes());
+        bytes[2..4].copy_from_slice(&(19u16).to_be_bytes());
         assert_eq!(
             Packet::parse(&bytes),
             Err(ParseError::LengthBelowMinimum { declared: 19 })
@@ -258,7 +258,7 @@ mod tests {
     #[test]
     fn a_length_field_above_four_thousand_and_ninety_six_is_rejected() {
         let mut bytes = packet(1, 0, &[]);
-        bytes[2..4].copy_from_slice(&4097u16.to_be_bytes());
+        bytes[2..4].copy_from_slice(&(4097u16).to_be_bytes());
         assert_eq!(
             Packet::parse(&bytes),
             Err(ParseError::LengthAboveMaximum { declared: 4097 })
@@ -302,7 +302,7 @@ mod tests {
         let mut bytes = packet(1, 9, &[1, 6, b'm', b'a', b'r', b'k']);
         assert_eq!(bytes.len(), 26);
         // A receive buffer that was not cleared between datagrams.
-        bytes.extend_from_slice(&[0xFF; 64]);
+        bytes.extend_from_slice(&[0xff; 64]);
 
         let p = Packet::parse(&bytes).expect("padding is not an error");
         assert_eq!(p.len(), 26);
