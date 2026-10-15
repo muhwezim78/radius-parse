@@ -1,0 +1,27 @@
+[package]
+name = "radius-parse"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+license = "MIT"
+description = "Zero-copy, allocation-free parser for RADIUS packets (RFC 2865 / RFC 2866)"
+repository = "https://github.com/MuhweziMark/radius-parse"
+keywords = ["radius", "aaa", "parser", "networking", "no-std"]
+categories = ["network-programming", "parser-implementations", "no-std"]
+readme = "README.md"
+
+[features]
+default = ["std"]
+# Implements `std::error::Error` for `ParseError`. Turn it off to use the
+# crate on a target without `std`; nothing else in the crate needs it.
+std = []
+
+[dependencies]
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
